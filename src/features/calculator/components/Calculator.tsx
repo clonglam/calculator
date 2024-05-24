@@ -1,31 +1,33 @@
 import useCalculatorStore from "../hooks/CalculatorStore"
-import "./Calculator.scss"
 import CalculatorButton from "./CalculatorButton"
+import "./Calculator.scss"
 
 function Calculator() {
   const expression = useCalculatorStore((s) => s.expression)
   const result = useCalculatorStore((s) => s.result)
 
-  // const [expression, setExpression] = useState("")
-  // const [result, setResult] = useState("")
-
-  // const handleButtonClick = (value: string) => {
-  //   setExpression((prev) => prev + value)
-  // }
-
-  // const handleClear = () => {
-  //   setExpression("")
-  //   setResult("")
-  // }
-
-  // const handleEvaluate = () => {
-  //   try {
-  //     setResult(evaluate(expression))
-  //   } catch (error) {
-  //     setResult("Error")
-  //   }
-  // }
-
+  const keys = [
+    "(",
+    ")",
+    "%",
+    "CE",
+    "7",
+    "8",
+    "9",
+    "/",
+    "4",
+    "5",
+    "6",
+    "*",
+    "1",
+    "2",
+    "3",
+    "-",
+    "0",
+    ".",
+    "=",
+    "+",
+  ]
   return (
     <div className="calculator">
       <div className="display">
@@ -34,28 +36,7 @@ function Calculator() {
       </div>
 
       <div className="buttons">
-        {[
-          "(",
-          ")",
-          "%",
-          "CE",
-          "7",
-          "8",
-          "9",
-          "/",
-          "4",
-          "5",
-          "6",
-          "*",
-          "1",
-          "2",
-          "3",
-          "-",
-          "0",
-          ".",
-          "=",
-          "+",
-        ].map((button) => (
+        {keys.map((button) => (
           <CalculatorButton value={button} label={button} />
         ))}
       </div>

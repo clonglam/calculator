@@ -15,7 +15,6 @@ const useCalculatorStore = create<CalculatorStore>((set) => ({
   handleClear: () => {
     set({ expression: "" })
   },
-
   setExpression: (value: string) =>
     set((state) => ({ expression: state.expression + value })),
 

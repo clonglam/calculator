@@ -10,11 +10,12 @@ interface Props {
 const CalculatorButton = ({ label, value }: Props) => {
   const setExpression = useCalculatorStore((s) => s.setExpression)
   const handleEvaluate = useCalculatorStore((s) => s.handleEvaluate)
+  const handleClear = useCalculatorStore((s) => s.handleClear)
   const expression = useCalculatorStore((s) => s.expression)
 
   const onClickHandler = (value: string) => {
     if (value === "CE") {
-      setExpression("0")
+      handleClear()
     } else if (value === "=") {
       handleEvaluate(expression)
     } else {
