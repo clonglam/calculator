@@ -1,73 +1,85 @@
-import { render } from "@testing-library/react"
+import { act, fireEvent, render } from "@testing-library/react"
 import { CalculatorButton } from "../CalculatorButton/CalculatorButton"
 import { describe, expect, it } from "vitest"
-import { useCalculatorStore } from "../../stores/use-calculator-store"
+import { useCalculatorStore } from "../../hooks/useCalculatorStore"
+import { keys } from "../../constant"
 
-describe("CalculatorButton", () => {
-  it("should render successfully", async () => {
-    const label = "1"
-    const { getByText } = renderCalculatorButton(label)
+describe("CalculatorButton UI Test", () => {
+  it("should render the correct button Key", () => {
+    keys.forEach((key) => {
+      const screen = renderCalculatorButton(`${key}`)
 
-    const button = getByText(label)
-    expect(button).toBeInTheDocument()
+      const button = screen.getByRole("button", { name: `${key}` })
+
+      expect(button).toHaveAttribute("id", `${key}`)
+    })
+  })
+})
+
+describe("CalculatorButton Function Test", () => {
+  it("should call setExpression when numbers is clicked", async () => {
+    const setExpression = vi.fn()
+
+    act(() => {
+      useCalculatorStore.setState({ setExpression })
+    })
+
+    for (let i = 0; i < 10; i++) {
+      const label = `${i}`
+      const screen = renderCalculatorButton(label)
+      const button = screen.getByRole("button", { name: label })
+
+      act(() => {
+        fireEvent.click(button)
+      })
+
+      expect(setExpression).toHaveBeenCalledWith(label)
+    }
   })
 
-  it("should call setExpression when button is clicked", async () => {
-    const label = "1"
-    const { getByText } = renderCalculatorButton(label)
+  it("should call handleClear when CE is clicked", async () => {
+    const handleClear = vi.fn()
 
-    const button = getByText(label)
-    button.click()
+    act(() => {
+      useCalculatorStore.setState({ handleClear })
+    })
 
-    const { expression } = useCalculatorStore.getState()
-    expect(expression).toBe(label)
+    const screen = renderCalculatorButton("CE")
+    const button = screen.getByRole("button", { name: "CE" })
+
+    act(() => {
+      fireEvent.click(button)
+    })
+
+    expect(handleClear).toHaveBeenCalledOnce()
   })
 
-  it("should call handleClear when button is clicked", async () => {
-    const label = "CE"
-    const { getByText } = renderCalculatorButton(label)
+  it("should call handleEvaluate when = is clicked", async () => {
+    const handleEvaluate = vi.fn()
 
-    const button = getByText(label)
-    button.click()
+    act(() => {
+      useCalculatorStore.setState({ handleEvaluate })
+    })
 
-    const { expression } = useCalculatorStore.getState()
-    expect(expression).toBe("")
-  })
+    const screen = renderCalculatorButton("=")
+    const button = screen.getByRole("button", { name: "=" })
 
-  it("should call handleEvaluate when button is clicked", async () => {
-    const label = "="
-    const { getByText } = renderCalculatorButton(label)
+    act(() => {
+      fireEvent.click(button)
+    })
 
-    const button = getByText(label)
-    button.click()
-
-    const { expression } = useCalculatorStore.getState()
-    expect(expression).toBe("")
+    expect(handleEvaluate).toHaveBeenCalledOnce()
   })
 
   it("should call handleOperator when an operator button is clicked", async () => {
     const label = "+"
-    const { getByText } = renderCalculatorButton(label)
-    const button = getByText(label)
-    button.click()
-    const { expression } = useCalculatorStore.getState()
-    expect(expression).toBe(label)
-  })
+    const screen = renderCalculatorButton(label)
+    const button = screen.getByText(label)
 
-  it("should call handleNumber when a number button is clicked", async () => {
-    const label = "5"
-    const { getByText } = renderCalculatorButton(label)
-    const button = getByText(label)
-    button.click()
-    const { expression } = useCalculatorStore.getState()
-    expect(expression).toBe(label)
-  })
+    act(() => {
+      fireEvent.click(button)
+    })
 
-  it("should call handleDecimal when the decimal button is clicked", async () => {
-    const label = "."
-    const { getByText } = renderCalculatorButton(label)
-    const button = getByText(label)
-    button.click()
     const { expression } = useCalculatorStore.getState()
     expect(expression).toBe(label)
   })

@@ -1,33 +1,12 @@
 import CalculatorButton from "../CalculatorButton/CalculatorButton"
 import "./Calculator.scss"
-import { useCalculatorStore } from "../../stores/use-calculator-store"
+import { useCalculatorStore } from "../../hooks/useCalculatorStore"
+import { keys } from "../../constant"
 
 function Calculator() {
   const expression = useCalculatorStore((s) => s.expression)
   const result = useCalculatorStore((s) => s.result)
 
-  const keys = [
-    "(",
-    ")",
-    "%",
-    "CE",
-    "7",
-    "8",
-    "9",
-    "/",
-    "4",
-    "5",
-    "6",
-    "*",
-    "1",
-    "2",
-    "3",
-    "-",
-    "0",
-    ".",
-    "=",
-    "+",
-  ]
   return (
     <div className="calculator">
       <div className="display">
@@ -38,8 +17,8 @@ function Calculator() {
       </div>
 
       <div className="buttons">
-        {keys.map((button) => (
-          <CalculatorButton value={button} />
+        {keys.map((value) => (
+          <CalculatorButton value={value} key={value} />
         ))}
       </div>
     </div>
