@@ -18,10 +18,13 @@ describe("CalculatorButton UI Test", () => {
 
 describe("CalculatorButton Function Test", () => {
   it("should call setExpression when numbers is clicked", async () => {
-    for (let i = 0; i < 10; i++) {
-      const setExpression = vi.fn()
-      useCalculatorStore.setState({ setExpression })
+    const setExpression = vi.fn()
 
+    act(() => {
+      useCalculatorStore.setState({ setExpression })
+    })
+
+    for (let i = 0; i < 10; i++) {
       const label = `${i}`
       const screen = renderCalculatorButton(label)
       const button = screen.getByRole("button", { name: label })
@@ -36,7 +39,11 @@ describe("CalculatorButton Function Test", () => {
 
   it("should call handleClear when CE is clicked", async () => {
     const handleClear = vi.fn()
-    useCalculatorStore.setState({ handleClear })
+
+    act(() => {
+      useCalculatorStore.setState({ handleClear })
+    })
+
     const screen = renderCalculatorButton("CE")
     const button = screen.getByRole("button", { name: "CE" })
 
@@ -49,7 +56,11 @@ describe("CalculatorButton Function Test", () => {
 
   it("should call handleEvaluate when = is clicked", async () => {
     const handleEvaluate = vi.fn()
-    useCalculatorStore.setState({ handleEvaluate })
+
+    act(() => {
+      useCalculatorStore.setState({ handleEvaluate })
+    })
+
     const screen = renderCalculatorButton("=")
     const button = screen.getByRole("button", { name: "=" })
 

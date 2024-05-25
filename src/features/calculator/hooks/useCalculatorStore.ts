@@ -22,9 +22,9 @@ export const useCalculatorStore = create<CalculatorStore>((set) => ({
   handleEvaluate: (expression) => {
     try {
       set({ result: evaluate(expression) })
-      console.log("expression", expression)
       set({ expression: "" })
     } catch (error) {
+      set({ expression: "" })
       set({ result: "Error" })
     }
   },
