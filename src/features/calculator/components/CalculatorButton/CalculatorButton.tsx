@@ -1,17 +1,14 @@
 import { cn } from "@/lib/utils"
-import { isNumeric } from "../utils"
-import useCalculatorStore from "../hooks/CalculatorStore"
+import { isNumeric } from "../../utils"
+import { useCalculatorStore } from "../../stores/use-calculator-store"
 
 interface Props {
-  label: string
   value: string
 }
 
-const CalculatorButton = ({ label, value }: Props) => {
-  const setExpression = useCalculatorStore((s) => s.setExpression)
-  const handleEvaluate = useCalculatorStore((s) => s.handleEvaluate)
-  const handleClear = useCalculatorStore((s) => s.handleClear)
-  const expression = useCalculatorStore((s) => s.expression)
+export const CalculatorButton = ({ value }: Props) => {
+  const { setExpression, handleEvaluate, handleClear, expression } =
+    useCalculatorStore()
 
   const onClickHandler = (value: string) => {
     if (value === "CE") {
@@ -24,6 +21,7 @@ const CalculatorButton = ({ label, value }: Props) => {
   }
   return (
     <button
+      id={value}
       className={cn(
         "button",
         value === "=" && "sum",
@@ -31,7 +29,7 @@ const CalculatorButton = ({ label, value }: Props) => {
       )}
       onClick={() => onClickHandler(value)}
     >
-      {label}
+      {value}
     </button>
   )
 }
