@@ -1,6 +1,6 @@
-import useCalculatorStore from "../hooks/CalculatorStore"
-import CalculatorButton from "./CalculatorButton"
+import CalculatorButton from "../CalculatorButton/CalculatorButton"
 import "./Calculator.scss"
+import { useCalculatorStore } from "../../stores/use-calculator-store"
 
 function Calculator() {
   const expression = useCalculatorStore((s) => s.expression)
@@ -32,12 +32,14 @@ function Calculator() {
     <div className="calculator">
       <div className="display">
         <div className="expression">{expression}</div>
-        <div className="result">{result}</div>
+        <div className="result" id="result">
+          {result}
+        </div>
       </div>
 
       <div className="buttons">
         {keys.map((button) => (
-          <CalculatorButton value={button} label={button} />
+          <CalculatorButton value={button} />
         ))}
       </div>
     </div>

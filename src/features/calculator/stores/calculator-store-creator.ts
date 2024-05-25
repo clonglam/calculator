@@ -1,7 +1,7 @@
 import { evaluate } from "mathjs"
-import { create } from "zustand"
+import { type StateCreator } from "zustand"
 
-type CalculatorStore = {
+export type CalculatorStore = {
   expression: string
   result: string
   handleClear: () => void
@@ -9,12 +9,13 @@ type CalculatorStore = {
   setExpression: (value: string) => void
 }
 
-const useCalculatorStore = create<CalculatorStore>((set) => ({
+export const calculatorStoreCreator: StateCreator<CalculatorStore> = (set) => ({
   expression: "",
   result: "0",
   handleClear: () => {
     set({ expression: "" })
   },
+
   setExpression: (value: string) =>
     set((state) => ({ expression: state.expression + value })),
 
@@ -27,6 +28,4 @@ const useCalculatorStore = create<CalculatorStore>((set) => ({
       set({ result: "Error" })
     }
   },
-}))
-
-export default useCalculatorStore
+})
