@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 import { isNumeric } from "../../utils"
-import { useCalculatorStore } from "../../stores/use-calculator-store"
+import { useCalculatorStore } from "../../hooks/useCalculatorStore"
 
 interface Props {
   value: string
